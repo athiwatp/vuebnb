@@ -1,6 +1,6 @@
 <template>
-    <div id="modal" v-bind:class="{ show : modalOpen }">
-        <button v-on:click="modalOpen = false" class="modal-close">&times;</button>
+    <div id="modal" :class="{ show : modalOpen }">
+        <button @click="modalOpen = false" class="modal-close">&times;</button>
         <div class="modal-content">
             <slot></slot>
         </div>
@@ -77,7 +77,7 @@
     }
 
     .modal-content {
-        width: 100%;
+        height: 100%;
         max-width: 105vh;
         padding-top: 12vh;
         margin: 0 auto;

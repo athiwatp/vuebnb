@@ -1,7 +1,7 @@
 <template>
     <div class="header">
-        <div class="header-img" v-bind:style="headerImageStyle" v-on:click="$emit('header-clicked')">
-            <button>View Photos</button>
+        <div class="header-img" :style="headerImageStyle" @click="$emit('header-clicked')">
+            <button class="view-photos">View Photos</button>
         </div>
     </div>
 </template>
@@ -34,7 +34,7 @@
         position: relative;
     }
 
-    .header .header-img button {
+    .header .header-img .view-photos {
         position: absolute;
         bottom: 20px;
         left: 20px;

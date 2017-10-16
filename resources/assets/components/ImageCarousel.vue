@@ -1,6 +1,6 @@
 <template>
     <div class="image-carousel">
-        <img v-bind:src="image">
+        <img :src="image">
         <div class="controls">
             <carousel-control dir="left" @change-image="changeImage"></carousel-control>
             <carousel-control dir="right" @change-image="changeImage"></carousel-control>
@@ -42,6 +42,7 @@
 <style>
     .image-carousel {
         height: 100%;
+        margin-top: -12vh;
         position: relative;
         display: flex;
         align-items: center;

@@ -1,9 +1,9 @@
 <template>
     <div>
-        <p v-bind:class="{ contracted: contracted }">
+        <p :class="{ contracted: contracted }">
             <slot></slot>
         </p>
-        <button v-if="contracted" class="more" v-on:click="contracted = false">+ More</button>
+        <button v-if="contracted" class="more" @click="contracted = false">+ More</button>
     </div>
 </template>
 <script>

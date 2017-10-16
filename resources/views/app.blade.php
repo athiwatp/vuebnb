@@ -5,11 +5,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Vuebnb - Detail</title>
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
   <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css">
   <link rel="stylesheet" href="{{ asset('css/vue-style.css') }}" type="text/css">
   <script type="text/javascript">
-    window.vuebnb_listing_model = "{!! addslashes(json_encode($model)) !!}"
+    window.vuebnb_server_data = "{!! addslashes(json_encode($data)) !!}"
   </script>
 </head>
 <body>

@@ -7,55 +7,59 @@ use App\Listing;
 
 class ListingController extends Controller
 {
-    private function add_image_urls($model, $id) {
-        for($i = 1; $i <=4; $i++) {
-            $model['image_' . $i] = asset('images/' . $id . '/Image_' . $i . '.jpg');
-        }
-        return $model;
-    }
-
-    public function get_listing_api(Listing $listing) {
-        $model = $listing->toArray();
-        $model = $this->add_image_urls($model, $listing->id);
-        return response()->json($model);
-    }
-
-    public function get_listing_web(Listing $listing) {
-        $model = $listing->toArray();
-        $model = $this->add_image_urls($model, $listing->id);
-        $model['path'] = '/listing/' . $listing->id;
-        return view('app', ['model' => $model]);
-    }
-
-    private function get_listings_grouped_by_country()
+    private function get_listing($listing)
     {
-        $collection = Listing::all(['id', 'address', 'title', 'price_per_night']);
+        $model = $listing->toArray();
+        for($i = 1; $i <=4; $i++) {
+            $model['image_' . $i] = asset('images/' . $listing->id . '/Image_' . $i . '.jpg');
+        }
+        return collect(['listing' => $model]);
+    }
+
+    public function get_listing_api(Listing $listing)
+    {
+        $data = $this->get_listing($listing);
+        return response()->json($data);
+    }
+
+    private function add_meta_data($collection, $request)
+    {
+        return $collection->merge([
+            'path' => $request->getPathInfo()
+        ]);
+    }
+
+    public function get_listing_web(Listing $listing, Request $request)
+    {
+        $data = $this->get_listing($listing);
+        $data = $this->add_meta_data($data, $request);
+        return view('app', ['data' => $data]);
+    }
+
+    private function get_listing_summaries()
+    {
+        $collection = Listing::all([
+            'id', 'address', 'title', 'price_per_night'
+        ]);
         $collection->transform(function($listing) {
-            $listing->thumb = asset('images/' . $listing->id . '/Image_1_thumb.jpg');
+            $listing->thumb = asset(
+                'images/' . $listing->id . '/Image_1_thumb.jpg'
+            );
             return $listing;
         });
-        return $collection->groupBy(function($listing) {
-            foreach ([ 'Taiwan', 'Poland', 'Cuba' ] as $country) {
-                $pos = strpos($listing['address'], $country);
-                if ($pos !== FALSE) {
-                    return $country;
-                }
-            }
-        });
+        return collect(['listings' => $collection->toArray()]);
     }
 
-    public function get_home_web()
+    public function get_home_web(Request $request)
     {
-        $collection = collect([
-            'listing_groups' => $this->get_listings_grouped_by_country(),
-            'path' => '/'
-        ]);
-        $model = $collection->toArray();
-        return view('app', ['model' => $model]);
+        $data = $this->get_listing_summaries();
+        $data = $this->add_meta_data($data, $request);
+        return view('app', ['data' => $data]);
     }
 
     public function get_home_api()
     {
-        return response()->json(collect([ 'listing_groups' => $this->get_listings_grouped_by_country() ]));
+        $data = $this->get_listing_summaries();
+        return response()->json($data);
     }
 }

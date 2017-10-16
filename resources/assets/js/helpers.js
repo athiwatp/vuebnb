@@ -13,6 +13,7 @@ prices.set('price_weekly_discount', 'Weekly discount');
 prices.set('price_monthly_discount', 'Monthly discount');
 
 let populateAmenitiesAndPrices = function(state) {
+  if (!state) return {};
   state.amenities = [];
   state.prices = [];
   state.images = [];
@@ -45,3 +46,17 @@ let populateAmenitiesAndPrices = function(state) {
 };
 
 export { populateAmenitiesAndPrices };
+
+let groupByCountry = function (listings) {
+  if (!listings) return {};
+  return listings.reduce(function (rv, x) {
+    let key = ['Taiwan', 'Poland', 'Cuba'].find(country => x.address.indexOf(country) > -1);
+    if (!rv[key]) {
+      rv[key] = [];
+    }
+    rv[key].push(x);
+    return rv;
+  }, {});
+};
+
+export { groupByCountry };

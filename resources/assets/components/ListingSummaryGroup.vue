@@ -10,7 +10,7 @@
                 <div class="listing-summaries" :style="style">
                     <listing-summary
                         v-for="listing in listings"
-                        v-bind:listing="listing"
+                        :listing="listing"
                         :key="listing.id"
                     ></listing-summary>
                 </div>
