@@ -19,6 +19,8 @@ body {
 #toolbar {
   display: flex;
   align-items: center;
+  border-bottom: 1px solid #e4e4e4;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
 }
 
 #toolbar .icon {
@@ -152,13 +154,13 @@ button {
   cursor: pointer;
   background: white;
   color: #484848;
-  padding: 7px 21px;
+  padding: 7px 18px;
   font-size: 14px;
   display: inline-block;
   margin-bottom: 0;
 }
 
-.header .header-img button {
+.header .header-img .view-photos {
   position: absolute;
   bottom: 20px;
   left: 20px;
